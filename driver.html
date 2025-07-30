@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Driver Location Share</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <h2>Sharing Your Location...</h2>
+
+  <script>
+    
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA0WX1RHHgPVShhBeXxO5pd37_s0UVzaWI",
+  authDomain: "drivertracking-89b31.firebaseapp.com",
+  databaseURL: "https://drivertracking-89b31-default-rtdb.firebaseio.com",
+  projectId: "drivertracking-89b31",
+  storageBucket: "drivertracking-89b31.firebasestorage.app",
+  messagingSenderId: "450841173720",
+  appId: "1:450841173720:web:faa6bc5ac7d5401e4a41ad"
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+
+    function updateLocation(position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+      db.ref("drivers/driver1").set({
+        latitude: lat,
+        longitude: lon,
+        timestamp: new Date().toISOString()
+      });
+
+      setTimeout(() => {
+        getLocation();
+      }, 5000); // every 5 sec
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(updateLocation);
+      } else {
+        alert("Geolocation not supported");
+      }
+    }
+
+    getLocation();
+  </script>
+</body>
+</html>
